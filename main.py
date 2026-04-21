@@ -1,13 +1,16 @@
 import os
 import csv
 import smtplib
-from google import genai  # 使用新的包
+import google.generativeai as genai  # 使用稳定版库
 from email.mime.text import MIMEText
 from email.header import Header
 from tavily import TavilyClient
 
-# 初始化客户端
-client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+# 配置 API
+genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+# 使用最稳定的 gemini-1.5-flash 模型
+model = genai.GenerativeModel('gemini-1.5-flash')
+
 tavily = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
 
 def get_news():
@@ -32,11 +35,8 @@ def generate_report(news_data):
     {news_data}
     """
     
-    # 新 SDK 的调用方式
-    response = client.models.generate_content(
-        model="gemini-1.5-flash",
-        contents=prompt
-    )
+    # 稳定版的调用方式
+    response = model.generate_content(prompt)
     return response.text
 
 def send_email(subscriber_email, content):
