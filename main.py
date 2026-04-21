@@ -8,8 +8,8 @@ from tavily import TavilyClient
 
 # 配置 API
 genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
-# 使用最稳定的 gemini-1.5-flash 模型
-model = genai.GenerativeModel('gemini-1.5-flash')
+# 使用最稳定的 gemini-3.1-flash-lite-preview 模型
+model = genai.GenerativeModel('gemini-3.1-flash-lite-preview')
 
 tavily = TavilyClient(api_key=os.environ["TAVILY_API_KEY"])
 
